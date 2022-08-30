@@ -1,0 +1,15 @@
+.game-tiles {
+    justify-content: center;
+    display: grid;
+    grid: repeat(3, 60px) / auto-flow 80px;
+    gap: 2px;
+}
+
+.game-tile {
+    background-color: bisque;
+}
+
+.game-tile:hover {
+    background-color: blueviolet;
+    cursor: pointer;
+}
