@@ -2,11 +2,12 @@
     justify-content: center;
     display: grid;
     grid: repeat(3, 60px) / auto-flow 80px;
-    gap: 2px;
+    gap: 0.5vw;
 }
 
 .game-tile {
     background-color: bisque;
+    border-radius: 5px;
 }
 
 .game-tile:hover {
