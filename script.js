@@ -1,17 +1,25 @@
-console.log("Hi")
+"use strict"
 
-const gameTile = document.querySelectorAll('.tile');
 
-gameTile.forEach((tile) =>
-    tile.addEventListener('click', () => {
-        markTile(tile);
+const displayController = (() => {
+    const gameTile = document.querySelectorAll('.tile');
+    const restartButton = document.getElementById('restart-button')
+
+    gameTile.forEach((tile) =>
+        tile.addEventListener('click', () => {
+            markTile(tile);
+        })
+    )
+
+    restartButton.addEventListener('click', () => {
+        console.log("Hello World")
     })
-)
 
-function markTile(tile) {
-    if (tile.textContent === "") {
-        tile.textContent = "X"
-    } else {
-        console.log("Already taken bud")
+    const markTile = (tile) => {
+        if (tile.textContent === "") {
+            tile.textContent = "X"
+        } else {
+            console.log("Already taken bud")
+        }
     }
-}
+})();
