@@ -1,16 +1,19 @@
 .game-tiles {
     justify-content: center;
     display: grid;
-    grid: repeat(3, 60px) / auto-flow 80px;
+    grid: repeat(3, 4em) / auto-flow 5em;
     gap: 0.5vw;
 }
 
-.game-tile {
+.tile {
     background-color: bisque;
     border-radius: 5px;
+    text-align: center;
+    align-items: center;
+    line-height: 4em;
 }
 
-.game-tile:hover {
+.tile:hover {
     background-color: blueviolet;
     cursor: pointer;
 }
