@@ -10,32 +10,126 @@ const Player = (sign) => {
     return { getSign };
 };
 
+const gameBoard = (() => {
+    const board = ["","","","","","","","",""];
+
+    const setTile= (index, sign) => {
+        if (index > board.length) return;
+        board[index] = sign
+    };
+
+    const getTile = (index) => {
+        if (index > board.length) return;
+        return board[index];
+    };
+
+    const reset = () => {
+        for (let i = 0; i < board.length; i++) {
+            board[i] = "";
+        }
+    };
+
+    return { setTile, getTile, reset };
+})();
+
 const displayController = (() => {
-    const gameTile = document.querySelectorAll('.tile');
-    const restartButton = document.getElementById('restart-button')
+    const gameTiles = document.querySelectorAll('.tile');
+    const restartButton = document.getElementById('restart-button');
+    const currentPlayerTurn = document.getElementById('player-turn');
 
-    gameTile.forEach((tile) =>
-        tile.addEventListener('click', () => {
-            markTile(tile);
+    gameTiles.forEach((tile) =>
+        tile.addEventListener('click', (e) => {
+            if (gameController.getIsOver() || e.target.textContent !== "") return;
+            gameController.playRound(parseInt(e.target.dataset.index));
+            markTile();
         })
-    )
+    );
 
-    restartButton.addEventListener('click', () => {
-        gameTile.forEach((tile) => {
-            tile.textContent = "";
-        })
-    })
+    const markTile = () => {
+        for (let i = 0; i < gameTiles.length; i++) {
+            gameTiles[i].textContent = gameBoard.getTile(i);
+        }
+    };
 
-    const markTile = (tile) => {
-        if (tile.textContent === "") {
-            tile.textContent = "X"
+    const setPlayerTurn = (message) => {
+        currentPlayerTurn.textContent = message
+    }
+
+    restartButton.addEventListener('click', (e) => {
+        gameBoard.reset();
+        gameController.reset();
+        markTile();
+        setPlayerTurn("It is currently Player X's turn");
+});
+
+    const setResult = (winner) => {
+        if (winner === "Draw") {
+            setPlayerTurn("It's a draw!");
         } else {
-            console.log("Already taken bud")
+            setPlayerTurn(`Player ${winner} has won`);
         }
     }
+
+    return { setPlayerTurn, setResult }
 })();
 
 
 const gameController = (() => {
-    console.log("gameController ready for work")
+    const playerX = Player("X");
+    const playerO = Player("O");
+    let round = 1;
+    let isOver = false
+
+    const playRound = (tileIndex) => {
+        gameBoard.setTile(tileIndex, getCurrentPlayerSign());
+        if (checkWinner(tileIndex)) {
+            displayController.setResult(getCurrentPlayerSign());
+            isOver = true
+            return
+        }
+        if (round === 9) {
+            displayController.setResult("Draw")
+            return
+        }
+        round++;
+        displayController.setPlayerTurn(
+            `It is currently Player ${getCurrentPlayerSign()}'s turn`
+        );
+    }
+
+    const checkWinner = (tileIndex) => {
+        const winConditions = [
+          [0, 1, 2],
+          [3, 4, 5],
+          [6, 7, 8],
+          [0, 3, 6],
+          [1, 4, 7],
+          [2, 5, 8],
+          [0, 4, 8],
+          [2, 4, 6],
+        ];
+    
+        return winConditions
+          .filter((combination) => combination.includes(tileIndex))
+          .some((possibleCombination) =>
+            possibleCombination.every(
+              (index) => gameBoard.getTile(index) === getCurrentPlayerSign()
+            )
+          );
+      };
+
+    const getCurrentPlayerSign = () => {
+        return round % 2 === 1 ? playerX.getSign() : playerO.getSign();
+    }
+
+    const getIsOver = () => {
+        return isOver;
+    }
+
+    const reset = () => {
+        round = 1;
+        isOver = false
+    };
+
+    return { playRound, getIsOver, reset };
 })();
