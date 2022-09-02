@@ -59,8 +59,8 @@ const displayController = (() => {
         gameBoard.reset();
         gameController.reset();
         markTile();
-        setPlayerTurn("It is currently Player X's turn");
-});
+        setPlayerTurn("It is currently Player X's turn");  
+    });
 
     const setResult = (winner) => {
         if (winner === "Draw") {
