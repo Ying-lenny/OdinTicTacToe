@@ -1,5 +1,14 @@
 "use strict"
 
+const Player = (sign) => {
+    this.sign = sign;
+
+    const getSign = () => {
+        return sign;
+    };
+
+    return { getSign };
+};
 
 const displayController = (() => {
     const gameTile = document.querySelectorAll('.tile');
@@ -12,7 +21,9 @@ const displayController = (() => {
     )
 
     restartButton.addEventListener('click', () => {
-        console.log("Hello World")
+        gameTile.forEach((tile) => {
+            tile.textContent = "";
+        })
     })
 
     const markTile = (tile) => {
@@ -22,4 +33,9 @@ const displayController = (() => {
             console.log("Already taken bud")
         }
     }
+})();
+
+
+const gameController = (() => {
+    console.log("gameController ready for work")
 })();
