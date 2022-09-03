@@ -1,5 +1,6 @@
 "use strict"
 
+//Player Factory
 const Player = (sign) => {
     this.sign = sign;
 
@@ -10,6 +11,8 @@ const Player = (sign) => {
     return { getSign };
 };
 
+
+//Gameboard module
 const gameBoard = (() => {
     const board = ["","","","","","","","",""];
 
@@ -32,6 +35,8 @@ const gameBoard = (() => {
     return { setTile, getTile, reset };
 })();
 
+
+//Module for updating the display
 const displayController = (() => {
     const gameTiles = document.querySelectorAll('.tile');
     const restartButton = document.getElementById('restart-button');
@@ -73,7 +78,7 @@ const displayController = (() => {
     return { setPlayerTurn, setResult }
 })();
 
-
+//Module for the game's logic
 const gameController = (() => {
     const playerX = Player("X");
     const playerO = Player("O");
